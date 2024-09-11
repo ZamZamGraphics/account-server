@@ -245,6 +245,8 @@ const login = async (req, res, next) => {
       );
 
       if (isValidPassword) {
+        // get user device info and save to database
+        
         // prepare the user object to generate token
         const userObject = {
           userid: user._id,

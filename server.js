@@ -23,8 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 // set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
+// Public Route
+app.use("/v1/auth", require("./routers/loginRoute"));
+
 // Private Route
-// app.use("/v1/users", require("./routers/userRoute"));
+app.use("/v1/users", authenticate, require("./routers/userRoute"));
 // app.use("/v1/settings", authenticate, require("./routers/settingsRoute"));
 
 // Public Route
@@ -44,6 +47,7 @@ app.use((req, res, next) => {
 
 // common error handler
 app.use((err, req, res, next) => {
+  console.log("Global Error 500 :", err);
   error = err || { message: "500, Internal Server Error" };
   res.status(err.status || 500);
   res.json(error);
